@@ -1,0 +1,38 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+  <meta charset="UTF-8">
+  <title>🍀Loading...🍀</title>
+     <!-- Dokdo 폰트  -->
+  <link href="https://fonts.googleapis.com/css2?family=Dokdo&display=swap" rel="stylesheet">
+  <style>
+       body {
+      background-color: #fff; /* 배경색 흰색 */
+      text-align: center;     /* 내용을 가운데 정렬 */
+      font-family: 'Dokdo';   /* 전체 폰트를 Dokdo로 설정 */
+      padding-top: 100px;     /* 상단에 여백 주기 */
+    }
+
+
+    .loading-img {
+      width: 150px;  /*이미지 크기 */
+      animation: spin 3s linear infinite; /*이미지 회전*/
+    }
+
+    @keyframes spin { 
+      0% { transform: rotate(0deg); } /*시작 각도 0도*/
+      100% { transform: rotate(360deg); } /* 끝 각도 360도*/
+    }
+  </style>
+<!--3초 후에 자동으로 다음 페이지로 이동 -->
+  <script>
+    setTimeout(() => {
+      window.location.href = "/chatbot"; // 3초 후에 챗봇 페이지로 이동
+    }, 3000);
+  </script>
+</head>
+<body>
+  <img class="loading-img" src="/static/img/눈 감은 네잎.png" alt="로딩 중...">
+  <h2>운세를 불러오는 중입니다... 🍀</h2>
+</body>
+</html>

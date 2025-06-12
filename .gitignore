@@ -1,0 +1,40 @@
+# ===== Python 기본 캐시 파일 =====
+__pycache__/
+*.py[cod]
+*.pyo
+
+# ===== 가상환경 =====
+venv/
+.venv/
+env/
+ENV/
+
+# ===== IDE 설정 파일 (VSCode 등) =====
+.vscode/
+.idea/
+
+# ===== OS 관련 파일 =====
+.DS_Store
+Thumbs.db
+
+# ===== DB 파일 =====
+*.db
+*.sqlite
+*.sqlite3
+
+# ===== 환경 변수 설정 파일 =====
+.env
+.env.*
+
+# ===== 로그 파일 =====
+*.log
+
+# ===== 기타 백업/빌드 파일 =====
+*.bak
+*.swp
+*.tmp
+
+# ===== pyinstaller, packaging =====
+dist/
+build/
+*.egg-info/

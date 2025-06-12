@@ -1,0 +1,100 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+  <meta charset="UTF-8">
+  <title>Sign Up</title>
+  <!--Dokdo  -->
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Dokdo&display=swap" rel="stylesheet">
+
+  <style>
+    h1 {
+      font-family: 'Dokdo', cursive; /* 제목 폰트 */
+      font-size: 48px;
+      margin-top: 20px;
+      color: #333;
+    }
+
+    body {
+      font-family: Arial, sans-serif; /* 일반 본문 폰트 */
+      text-align: center; /* 가운데 정렬 */
+    }
+
+    .clovers {
+      font-size: 24px;
+      margin: 20px 0; /* 위아래 여백 */
+    }
+
+    .signup-image {
+      margin: 20px auto; /* 가운데 정렬용 여백 */
+    }
+
+    .signup-image img {
+      width: 280px; /* 이미지 크기 */
+    }
+
+    .signup-form {
+      margin: 20px 0; /*여백*/
+    }
+
+    .signup-form input {
+      padding: 10px;
+      margin: 10px;
+      font-size: 16px;
+      width: 200px;
+      border-radius: 6px; /* 둥근 테두리 */
+      border: 1px solid #ccc; /* 연한 회색 테두리 */
+    }
+
+    .signup-form button {
+      padding: 10px 20px;
+      font-size: 16px;
+      background-color: #09b72c;
+      color: white;
+      border: none;
+      border-radius: 6px;
+      cursor: pointer; /*커서 변경*/
+    }
+
+    .signup-form button:hover {
+      background-color: #02952e; /* 초록색 */
+    }
+
+    .error-message {
+      color: red;  /* 오류메세지 레드 */
+      margin-top: 10px;
+    }
+  </style>
+</head>
+<body>
+ <!-- 페이지 제목 -->
+  <h1>Sign Up</h1>
+
+  <div class="clovers">🍀🍀🍀🍀🍀🍀🍀🍀🍀🍀🍀🍀🍀🍀🍀</div>
+
+  <!-- 회원가입용 이미지 -->
+  <div class="signup-image">
+    <img src="/static/img/뭉청이네잎클로버.jpg" alt="네잎클로버">
+  </div>
+ <!-- 회원가입 입력 폼 -->
+  <form class="signup-form" action="/register" method="post">
+     <!-- 사용자 아이디 입력 -->
+     <input type="text" name="username" placeholder="아이디" required><br>
+     <!-- 비밀번호 입력 -->
+     <input type="password" name="password" placeholder="비밀번호" required><br>
+    <!-- 이메일 입력 -->
+     <input type="email" name="email" placeholder="이메일" required><br>
+    <!-- 전송 버튼 -->
+     <button type="submit">Sign Up</button>
+
+     <!-- 서버에서 받은 에러 메시지를 표시 -->
+    {% if error %}
+      <div class="error-message">{{ error }}</div>
+    {% endif %}
+  </form>
+
+  <div class="clovers"><strong>🍀🍀🍀🍀🍀🍀🍀🍀🍀🍀🍀🍀🍀🍀🍀</strong></div>
+
+</body>
+</html>

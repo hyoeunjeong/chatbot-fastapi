@@ -1,0 +1,126 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>💌 내 운세 기록 💌</title>
+  <style>
+    body {
+      font-family: 'Arial', sans-serif;
+      background-color: #f0fff4;
+      margin: 0;
+      padding: 40px 20px;
+      display: flex;
+      justify-content: center;
+    }
+    .records-container {
+      width: 100%;
+      max-width: 600px;
+    }
+    .records-container h1 {
+      text-align: center;
+      margin-bottom: 30px;
+      color: #2a7f2a;
+    }
+    details.record-card {
+      background: #ffffff;
+      border-radius: 16px;
+      padding: 10px 20px 20px;
+      margin-bottom: 15px;
+      box-shadow: 0 4px 16px rgba(0,0,0,0.1);
+      overflow: hidden;
+    }
+    details.record-card[open] {
+      padding-bottom: 20px;
+    }
+    details.record-card summary {
+      font-size: 14px;
+      color: #888888;
+      cursor: pointer;
+      list-style: none;
+      outline: none;
+      padding: 10px 0;
+      user-select: none;
+    }
+   
+    details.record-card summary::-webkit-details-marker {
+      display: none;
+    }
+    details.record-card summary:before {
+      content: '▶';
+      display: inline-block;
+      margin-right: 8px;
+      transition: transform .2s;
+    }
+    details.record-card[open] summary:before {
+      transform: rotate(90deg);
+    }
+    .record-card .fortune {
+      font-size: 18px;
+      color: #333333;
+      white-space: pre-line;
+      line-height: 1.5;
+      margin-top: 10px;
+    }
+    .nav {
+      text-align: center;
+      margin-top: 30px;
+    }
+    .nav button {
+      margin: 0 10px;
+      padding: 12px 24px;
+      font-size: 16px;
+      background-color: #37c72a;
+      color: white;
+      border: none;
+      border-radius: 8px;
+      cursor: pointer;
+      transition: background-color .2s;
+    }
+    .nav button:hover {
+      background-color: #2fa522; /* 마우스를 올리면 진한 초록 */
+    }
+  </style>
+</head>
+<body>
+  <div class="records-container">
+    <h1>💌 내 운세 기록 💌</h1>
+    <div id="history">
+     
+    </div>
+    <div class="nav">
+      <button onclick="location.href='/chatbot'">➕ 새로 물어보기</button>
+      <button onclick="location.href='/'">🏠 홈으로</button>
+    </div>
+  </div>
+
+  <script>
+    fetch(`/results?username={{ user.username if user else 'guest' }}`)
+      .then(res => res.json()) // 응답을 JSON 형식으로 변환
+      .then(list => {
+        const container = document.getElementById('history');
+        if (list.length === 0) {
+           // 기록이 없을 경우 메시지 출력
+            container.innerHTML = '<details class="record-card"><summary>아직 저장된 운세가 없어요.</summary></details>';
+          return;
+        } // 기록이 있는 경우 하나씩 출력
+        list.forEach(item => {
+          const details = document.createElement('details');
+          details.classList.add('record-card');
+          const summary = document.createElement('summary');
+          summary.textContent = item.timestamp;
+          const fortuneDiv = document.createElement('div');
+          fortuneDiv.classList.add('fortune');
+          fortuneDiv.textContent = item.fortune;
+          details.appendChild(summary);
+          details.appendChild(fortuneDiv);
+          container.appendChild(details);
+        });
+      })
+      .catch(() => { // 에러가 발생했을 때 출력할 메시지
+        document.getElementById('history').innerHTML =
+          '<details class="record-card"><summary>불러오기 중 오류가 발생했습니다.</summary></details>';
+      });
+  </script>
+</body>
+</html>

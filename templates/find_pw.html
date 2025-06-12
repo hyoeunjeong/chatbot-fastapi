@@ -1,0 +1,93 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+  <meta charset="UTF-8">
+  <title>비밀번호 찾기</title>
+    <!-- Dokdo 사용 -->
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Dokdo&display=swap" rel="stylesheet">
+
+  <style>
+    h1 {
+      font-family: 'Dokdo', cursive;
+      font-size: 48px; /* 글씨 크기 */
+      margin-top: 20px; /* 글씨 색색 */
+      color: #333;
+    }
+
+    body {
+      font-family: Arial, sans-serif;/* 글씨체  */
+      text-align: center;/* 센터 맞추기 */
+    }
+
+    .clovers {
+      font-size: 24px;
+      margin: 20px 0;
+    }
+
+    .find-form {
+      margin: 20px 0;
+    }
+      /* 입력창 디자인 */
+    .find-form input {
+      padding: 10px;
+      margin: 10px;
+      font-size: 16px;
+      width: 200px;
+      border-radius: 6px; /*모서리 둥굴이*/
+      border: 1px solid #ccc; /*테두리*/
+    }
+      /* 버튼 디자인 */
+    .find-form button {
+      padding: 10px 20px;
+      font-size: 16px;
+      background-color: #09b72c; /* 초록색 배경 */
+      color: white; /* 글자색 흰색 */
+      border: none;
+      border-radius: 6px; /*모서리 둥굴이*/
+      cursor: pointer; /*커서 뱐경*/
+    }
+
+    .find-form button:hover {
+      background-color: #02952e; /* 마우스를 올렸을 때 진한 초록색으로 변경 */
+    }
+     /* 링크 디자인 */
+    a {
+      margin: 0 8px;
+      text-decoration: none;
+      color: #5a2ea1;
+    }
+
+    a:hover {
+      text-decoration: underline;  /* 마우스를 데면 밑줄 */
+    }
+  </style>
+</head>
+<body>
+
+  <!-- 페이지 제목 -->
+  <h1>🔐비밀번호 찾기🔐</h1>
+
+  <div class="clovers">🍀🍀🍀🍀🍀🍀🍀🍀🍀🍀🍀🍀🍀🍀🍀</div>
+
+  
+  <!-- 비밀번호 찾기 폼 -->
+  <!-- 사용자에게 아이디와 이메일을 입력받아 서버로 전송합니다 -->
+  <!-- action은 요청을 보낼 주소, method는 전송 방식입니다 -->
+  <form class="find-form" action="/find_pw" method="post">
+    <input type="text" name="username" placeholder="아이디" required><br>
+    <input type="email" name="email" placeholder="이메일" required><br>
+    <button type="submit">비밀번호 찾기</button>
+  </form>
+
+  <div class="clovers"><strong>🍀🍀🍀🍀🍀🍀🍀🍀🍀🍀🍀🍀🍀🍀🍀</strong></div>
+ <!-- 하단 네비게이션: 다른 페이지로 이동하는 링크들 -->
+  <div>
+    <a href="/login">로그인</a> |
+    <a href="/find_id">아이디 찾기</a> |
+    <a href="/sign_up">회원가입</a>
+  </div>
+
+</body>
+</html>

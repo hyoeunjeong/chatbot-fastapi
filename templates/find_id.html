@@ -1,0 +1,91 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+  <meta charset="UTF-8">
+  <title>아이디 찾기</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">     <!-- 폰트 Dokdo -->
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin> 
+  <link href="https://fonts.googleapis.com/css2?family=Dokdo&display=swap" rel="stylesheet">
+
+  <style>
+    /* 제목 글씨 독도도 */
+    h1 {
+      font-family: 'Dokdo',cursive;
+      font-size: 48px;
+      margin-top: 20px;
+      color: #333;
+    }
+/* 본문 글씨체& 센터정렬렬 */
+    body {
+      font-family: Arial, sans-serif;
+      text-align: center;
+    }
+
+    .clovers {
+      font-size: 24px;
+      margin: 20px 0;
+    }
+
+    .find-form {
+      margin: 20px 0;
+    }
+  /* 입력창 스타일 */
+    .find-form input {
+      padding: 10px;
+      margin: 10px;
+      font-size: 16px;
+      width: 200px;
+      border-radius: 6px;
+      border: 1px solid #ccc;
+    }
+ /* 버튼 스타일 */
+    .find-form button {
+      padding: 10px 20px;
+      font-size: 16px;
+      background-color: #09b72c; /* 초록색 배경 */
+      color: white;
+      border: none;
+      border-radius: 6px;
+      cursor: pointer;   /* 커서 모양 체인지*/
+    } 
+
+    .find-form button:hover {
+      background-color: #02952e; /* 버튼에 마우스를 올리면 진한 초록색 */
+    }
+
+    a {
+      margin: 0 8px;
+      text-decoration: none;
+      color: #5a2ea1;
+    }
+
+    a:hover {
+      text-decoration: underline;
+    }
+  </style>
+</head>
+<body>
+
+  <h1>아이디 찾기</h1>
+
+  <div class="clovers">🍀🍀🍀🍀🍀🍀🍀🍀🍀🍀🍀🍀🍀🍀🍀</div>
+
+  <!-- 아이디 찾기 폼: 사용자가 이름과 이메일을 입력 -->
+  <!-- 입력된 값은 /find_id 주소로 POST 방식으로 전송됨 -->
+  <form class="find-form" action="/find_id" method="post">
+    <input type="text" name="name" placeholder="이름" required><br>
+    <input type="email" name="email" placeholder="이메일" required><br>
+    <button type="submit">아이디 찾기</button>
+  </form>
+
+  <div class="clovers"><strong>🍀🍀🍀🍀🍀🍀🍀🍀🍀🍀🍀🍀🍀🍀🍀</strong></div>
+
+   <!-- 하단 네비게이션: 다른 페이지로 이동하는 링크 -->
+  <div>
+    <a href="/login">로그인</a> |
+    <a href="/find_pw">비밀번호 찾기</a> |
+    <a href="/sign_up">회원가입</a>
+  </div>
+
+</body>
+</html>

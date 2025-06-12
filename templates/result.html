@@ -1,0 +1,91 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>🍀 오늘의 운세 결과 🍀</title>
+  <style>
+    body {
+      font-family: 'Arial', sans-serif;
+      background-color: #f7fff7;  /* 연한 연두 배경 */
+      text-align: center;
+      padding: 40px;
+    }
+    .result-container {
+      max-width: 600px;
+      margin: auto; /*자동 정렬ㄹ*/
+      background-color: white; /*배경색*/
+      border-radius: 16px;
+      padding: 30px;
+      box-shadow: 0 0 20px rgba(0, 0, 0, 0.1);/* 그림자 */
+    }
+    .result-image {
+      max-width: 300px;
+      width: 100%;
+      height: auto;
+      margin-bottom: 20px;
+    }
+    .fortune-text {
+      font-size: 20px;
+      color: #444;
+      margin-bottom: 30px;
+      white-space: pre-line; /* 줄바꿈 표시 */
+    }
+    .button-group button {
+      margin: 10px;
+      padding: 12px 20px;
+      font-size: 16px;
+      background-color: #37c72a;
+      color: white;
+      border: none;
+      border-radius: 8px;
+      cursor: pointer;
+    }
+    .button-group button:hover {
+      background-color: #2fa522;
+    }
+  </style>
+</head>
+<body>
+    <!-- 운세 결과 전체 박스 -->
+  <div class="result-container">
+    <!-- 결과 이미지 -->
+    <img src="/static/img/네잎클로버.jpg" alt="네잎클로버" class="result-image" />
+    <h2>🍀 오늘의 운세 🍀</h2>
+    <div class="fortune-text" id="fortune-text">{{ fortune }}</div>
+    <div class="button-group">
+          <!-- 버튼 모음 -->
+      <button id="save-btn">💾 결과 저장하기</button>
+      <button onclick="location.href='/chatbot'">🍀 다시 물어보기</button>
+      <button onclick="location.href='/'">🏠 처음으로</button>
+      <button onclick="location.href='/my-results'">📜 지난 운세 기록 보기</button>
+    </div>
+  </div>
+
+  <script>
+    document.getElementById('save-btn').addEventListener('click', async () => {
+      const btn = document.getElementById('save-btn');
+      btn.disabled = true;
+      btn.textContent = '저장 중…';
+
+      const fortune = document.getElementById('fortune-text').textContent; // 운세 내용
+      const username = "{{ user.username if user else 'guest' }}"; // 사용자 이름 (로그인 여부 확인)
+
+      try {
+        // 백엔드에 저장 요청 보내기
+        const res = await fetch('/results', {
+          method: 'POST',
+          headers: { 'Content-Type': 'application/json' },
+          body: JSON.stringify({ username, fortune })
+        });
+        if (!res.ok) throw new Error(res.statusText);
+        btn.textContent = '✅ 저장 완료';
+      } catch (err) {
+        console.error(err);
+        btn.textContent = '❌ 저장 실패';
+        btn.disabled = false;
+      }
+    });
+  </script>
+</body>
+</html>

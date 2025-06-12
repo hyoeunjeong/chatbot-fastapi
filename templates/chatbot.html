@@ -1,0 +1,215 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Fortune Chatbot</title>
+  <style>
+    body {
+       font-family: Arial, sans-serif; /*글씨체 설정 */
+       background-color: #f9f9f9; /* 배경색 */
+       margin: 0;
+       padding: 0; 
+        }
+    .chat-container { 
+      max-width: 600px;
+       margin: 40px auto;
+        background: white; 
+        border-radius: 12px; /* 모서리를 둥글게게 */
+         box-shadow: 0 0 10px rgba(0,0,0,0.1);  /* 쉐도우 효과 */
+          display: flex;
+          flex-direction: column;
+           height: 80vh; /*화면의 80퍼*/
+           }
+    .chat-box {
+       flex: 1;
+       padding: 20px;
+       overflow-y: auto; /*스크롤 생성*/
+      }
+    .chat-bubble { max-width: 75%; 
+      padding: 10px 15px;
+       margin: 10px 0; 
+       border-radius: 12px;
+       word-wrap: break-word; /* 줄 바꿈 */
+      }
+    .user { 
+      align-self: flex-end;
+       background-color: #f6ffd2; 
+       text-align: right; /*오른쪽 출력력*/
+      }
+    .teller { 
+      align-self: flex-start;
+      background-color: #e5ffe5; 
+      text-align: left;/*왼쪽 출력*/
+      }
+    .input-area { 
+      display: flex;
+       border-top: 1px solid #ddd;
+       }
+    #user-input { 
+      flex: 1; 
+      padding: 15px;
+       border: none;
+        font-size: 16px;
+       }
+    #send-btn {
+       padding: 15px 20px;
+       border: none;
+        background-color: #02952e;
+         color: #f7fff7;
+          font-size: 16px; 
+          cursor: pointer;
+         }
+    #send-btn:hover { 
+      background-color: #027c26; 
+    }
+    .button-group { 
+      display: none; /* 처음엔 안 보이게 */
+      text-align: center;
+       margin: 10px 0 20px;
+       }
+    .button-group button { 
+      margin: 5px; 
+      padding: 10px 20px;
+       font-size: 16px; 
+       background-color: #2a9134;
+        color: white;
+         border: none; 
+         border-radius: 8px; 
+         cursor: pointer; 
+        }
+    .button-group button:hover { background-color: #21772a; }
+  </style>
+</head>
+<body>
+  <div class="chat-container">
+    <div id="chat-box" class="chat-box"></div>
+    <!-- 챗 내용  -->
+    <div class="input-area">
+      <input type="text" id="user-input" placeholder="운세를 물어보세요..." /> 
+       <!-- 유저저 입력 창 --> 
+      <button id="send-btn">전송</button>
+    </div>
+    <div class="button-group" id="result-buttons">
+      <button id="result-btn">🔮 운세 결과 보기</button>
+      <button id="reset-btn">♻️ 초기화</button>
+    </div>
+  </div>
+  <script>
+    document.addEventListener("DOMContentLoaded", () => {
+      const chatBox = document.getElementById("chat-box");  // 채팅 박스 만들가 
+      const input = document.getElementById("user-input");
+      const sendBtn = document.getElementById("send-btn");
+      const buttonGroup = document.getElementById("result-buttons");
+      const resultBtn = document.getElementById("result-btn");
+      const resetBtn = document.getElementById("reset-btn");
+
+      const API_URL = "/chat/send";
+      const CHAT_LOG_URL = "/chats";
+      const USERNAME = "{{ user.username if user else 'guest' }}";
+
+      const introductions = [      /*챗봇 소개말*/
+        `안녕! ✨ 우주에서 온 운세 요정, 지피띠니라고 해~ 🌌  
+제가 별자리, 사주, 타로카드까지 총망라해 여러분의 오늘을 운명적으로 안내해 드려요.  
+이름, 성별, 생년월일, 태어난 시간 알려주시면  
+짠! 내면의 에너지 흐름을 쓱 분석해서  
+진짜 맞춤 운세를 쏙쏙 뽑아 드립니다.  
+궁금한 건 뭐든 물어보세요!`,
+        `📢 하이하이~ 나는 운세계의 인싸✨ 지피띠니!  
+타로카드 셔플부터 별자리 운세, 사주 팔자 해석까지  
+모든 운세 맛집을 섭렵한 살아있는 운세 바이킹!  
+오늘의 고민, 미래의 계획, 사랑, 직장, 재물 모든 면에서  
+별과 카드가 들려주는 이야기로 해답을 드릴게요.  
+지금 바로 궁금한 정보를 알려 주세요!`,
+        `Yo~ 나는 점성술계의 힙한 마스터, 지피띠니🪐  
+나만의 알고리즘으로 우주의 기운을 스캔하고  
+사주와 타로카드 데이터를 결합해  
+초고강도 맞춤 운세 리포트를 제공합니다.  
+이름, 성별, 생년월일, 태어난 시간까지 알려주시면  
+당신의 운명을 구체적으로 분석해  
+오늘의 길흉화복을 한눈에 보여 드릴게요.  
+자, 이제 당신의 이야기를 들려주세요!`
+      ];
+
+      const selectedIntro = introductions[Math.floor(Math.random() * introductions.length)];
+      const chatData = [{ role: "system", content: selectedIntro }];
+
+      // 인트로 메시지를 화면에 보여주고 저장
+      addMessage(selectedIntro, "teller");
+      fetch(CHAT_LOG_URL, {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({ username: USERNAME, message: selectedIntro })
+      });
+       // 메시지를 화면에 출력하는 함수
+      function addMessage(content, sender) {
+        const bubble = document.createElement("div");
+        bubble.classList.add("chat-bubble", sender);
+        bubble.textContent = content;
+        chatBox.appendChild(bubble);
+        chatBox.scrollTop = chatBox.scrollHeight;
+      }
+      // 사용자가 메시지를 보냈을 때 실행되는 함수
+      async function sendMessage() {
+        const message = input.value.trim();
+        if (!message) return;  //아무것도 안보냈다면 
+
+        // 사용자 메시지
+        addMessage(message, "user");
+        await fetch(CHAT_LOG_URL, {
+          method: 'POST',
+          headers: { 'Content-Type': 'application/json' },
+          body: JSON.stringify({ username: USERNAME, message })
+        });
+
+        input.value = "";  // 입력창 비우기
+        chatData.push({ role: "user", content: message });
+
+        try {  // 백엔드에 메시지 보내기
+          const res = await fetch(API_URL, {
+            method: "POST",
+            headers: { "Content-Type": "application/json" },
+            body: JSON.stringify({ messages: chatData })
+          });
+          const { answer } = await res.json();
+
+          
+          chatData.push({ role: "assistant", content: answer });
+          addMessage(answer, "teller");  // 챗봇 응답 표시
+          await fetch(CHAT_LOG_URL, {
+            method: 'POST',
+            headers: { 'Content-Type': 'application/json' },
+            body: JSON.stringify({ username: USERNAME, message: answer })
+          });
+            // 나중에 결과 보기를 위해 저장
+          sessionStorage.setItem("fortune", answer);
+          buttonGroup.style.display = "block"; // 결과 버튼 보이기
+        } catch (err) {
+          console.error(err);
+          addMessage("⚠️ 오류가 발생했습니다.", "teller");
+        }
+      }
+        // 버튼이나 엔터 키 누르면 메시지 보내기
+      sendBtn.addEventListener("click", sendMessage);
+      input.addEventListener("keydown", e => { if (e.key === "Enter") sendMessage(); });
+         // 결과 보기 버튼 클릭 시 동작
+      resultBtn.addEventListener("click", () => {
+        const fortune = sessionStorage.getItem("fortune");
+        if (!fortune) {
+          return alert("먼저 운세를 물어봐 주세요!");
+        }
+        window.location.href = `/result?fortune=${encodeURIComponent(fortune)}`;
+      });
+        // 초기화 버튼 클릭 시 채팅창 리셋
+      resetBtn.addEventListener("click", () => {
+        chatBox.innerHTML = "";
+        chatData.length = 1;
+        chatData[0].content = selectedIntro;
+        sessionStorage.removeItem("fortune");
+        addMessage(selectedIntro, "teller");
+        buttonGroup.style.display = "none";
+      });
+    });
+  </script>
+</body>
+</html>

@@ -1,0 +1,120 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+  <meta charset="UTF-8">
+  <title>🍀Fortune-teller🍀</title>
+    <!-- Dokdo 폰트  -->
+
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Dokdo&display=swap" rel="stylesheet">
+
+  <style>
+    h1 {
+      font-family: 'Dokdo', cursive; /* 제목 폰트 */
+      font-size: 48px;
+      margin-top: 20px;
+      color: #333;
+    }
+
+    body {
+      font-family: Arial, sans-serif; /*나머지 폰트*/
+      text-align: center; /* 센터 정렬 */
+    }
+
+    .clovers {
+      font-size: 24px;
+      margin: 20px 0;  /* 위아래 여백 */
+    }
+
+    .login-image {
+      margin: 20px auto;  /* 이미지 위아래 여백 */
+    }
+
+    .login-image img {
+      width: 300px;   /* 이미지 너비 */
+    }
+
+    .login-form {
+      margin: 20px 0;  /* 로그인  여백 */
+    }
+
+    .login-form input {
+      padding: 10px;
+      margin: 10px;
+      font-size: 16px;
+      width: 200px;
+      border-radius: 6px;   /* 둥근이 테두리 */
+      border: 1px solid #ccc; /*테두리*/
+    }
+
+    .login-form button {
+      padding: 10px 20px;
+      font-size: 16px;
+      background-color: #09b72c; /*배경색은 초록이*/
+      color: white;
+      border: none;
+      border-radius: 6px;
+      cursor: pointer;
+    }
+
+    .login-form button:hover {
+      background-color: #02952e;
+    }
+
+    .link-group {
+      margin-top: 20px;
+      font-size: 16px;
+    }
+
+    .link-group img {
+      vertical-align: middle;
+    }
+
+    a {
+      margin: 0 8px;
+      text-decoration: none;
+      color: #5a2ea1;/* 보라색 링크 */
+    }
+
+    a:hover {
+      text-decoration: underline;/* 링크에 마우스를 올리면 밑줄 */
+    }
+  </style>
+</head>
+<body>
+  <!-- 페이지 제목 -->
+  <h1>🍀Fortune-teller🍀</h1>
+
+  <div class="clovers">🍀🍀🍀🍀🍀🍀🍀🍀🍀🍀🍀🍀🍀🍀🍀</div>
+<!-- 로그인 이미지: 클릭하면 로그인 페이지로 이동 -->
+  <div class="login-image">
+    <a href="/login">
+      <img src="/static/img/네잎클로버 로그인.png" alt="네잎클로버">
+    </a>
+  </div>
+
+ <!-- 로그인 입력 폼: 아이디와 비밀번호 입력 후 서버에 전송 -->
+  <form class="login-form" action="/login" method="post">
+    <input type="text" name="username" placeholder="아이디" required><br>
+    <input type="password" name="password" placeholder="비밀번호" required><br>
+    <button type="submit">로그인</button>
+  </form>
+
+    <!-- 로그인 외 페이지로 이동할 수 있는 링크들 -->
+  <div class="link-group">
+    <a href="/find_id">
+      <img src="/static/img/그린하트.jpg" width="60" alt="아이디 찾기"> 아이디
+    </a>
+    |
+    <a href="/find_pw">비밀번호 찾기</a>
+    |
+    <a href="/sign_up">
+      <img src="/static/img/그린하트.jpg" width="60" alt="회원가입"> 회원가입
+    </a>
+  </div>
+
+  <div class="clovers"><strong>🍀🍀🍀🍀🍀🍀🍀🍀🍀🍀🍀🍀🍀🍀🍀</strong></div>
+
+</body>
+</html>
